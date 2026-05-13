@@ -269,8 +269,7 @@ function renderEntityAttrTable(container, data, entityId, pinned, onPinChange) {
         html += `<tr>
             <td><input class="pin-check" type="checkbox" data-item-key="${esc(row.ItemKey)}"${checked}></td>
             <td>${nameCell}</td>
-            <td>${esc(row.DisplayName)}</td>
-            <td>${noteInput(row.ItemType, row.ItemKey, row.Note)}</td>
+            <td>${esc(row.DisplayName)}${noteInput(row.ItemType, row.ItemKey, row.Note)}</td>
             <td>${typeCell}</td><td>${esc(row.Description)}</td>
             <td>${esc(row.DefaultValue)}</td><td>${esc(row.GroupName)}</td>
             <td>${boolTag(row.IsKey)}</td><td>${boolTag(row.IsNullable)}</td>
