@@ -1,0 +1,49 @@
+﻿body{ font-size:12px; color:#014173; padding:0px; margin:0px; font-family:Courier New;}
+
+.topBar{ background:#efefef; height:25px; border-bottom:solid 1px #dfdfdf;}
+.topRight{ clear:both; text-align:right;}
+.topRight ul{ padding:0px; margin:0px;}
+.topRight ul li{ float:right; margin:0px 5px 0px 0px;}
+.topRight ul li a{border:solid 1px #AFD4F2; background:#ddd; padding:0px 5px 5px 5px; display:block; color:#014173}
+.topRight ul li a:hover{color:#014173;text-decoration:none;}
+
+.body{ margin:0px 10px 0px 10px;}
+.dataList{color:#015BA0;}
+.MainContentTable{background-color:White;border:1px solid #AFD4F2; width:100%; border-bottom-width:0px;}
+.MainContentTable tr.HeadTR{color:#2766B9; background-color:#ECF5FF;height:19px; vertical-align:middle; font-weight:bold; text-align:center;}
+.MainContentTable .Page{color:White; background-color:#79b2e1;height:19px;text-align:left; font-weight:bold;}
+.MainContentTable .Page td{ text-align:left;}
+
+.MainContentTable tr th{border-bottom:1px solid #C8E1F5;}
+
+.MainContentTable tr.ItemTR{background-color:#FFF}
+.MainContentTable tr.AtItemTR{background-color:#F4FCFF;}
+
+.MainContentTable tr.OnItemTR{background-color:#FFF}
+.MainContentTable tr.OnAtItemTR{background-color:#F4FCFF;}
+
+/*.MainContentTable tr.OnItemTR{background-color:#d2ecff}
+.MainContentTable tr.OnAtItemTR{background-color:#d2ecff}*/
+
+.MainContentTable tr td{ height:23px;border-bottom:1px solid #CCE2F4;}
+
+a, a:visited, a:active { color: #015BA0; text-decoration:none; }
+a:hover { color: #0099ff; text-decoration:underline; }/*0099ff*/
+
+input.input{ border:solid 1px #C1BEB9;}
+input.btn{border:solid 1px #AFD4F2; background:#ddd;}
+
+.table{border:1px solid #AFD4F2;}
+
+.queryBar{ text-align:center;}
+.queryBar queryBar{ margin:0px; padding:0px; border:0px;}
+
+.topRight { float:right; vertical-align:bottom; height:20px; width:48%;}
+.topLeft{ float:left; height:20px; width:48%;}
+.classInfo{ padding:2px 0px 0px 100px;}
+
+hr{ height:1px; color:#eee; clear:both;}
+
+.spBar{ width:100%; background:#efefef;}
+
+.foot{background:#efefef; height:10px;border-top:solid 1px #dfdfdf; display:block; clear:both; color:#999;}

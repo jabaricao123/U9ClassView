@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UFSoft.UBF.Business.Adapter</name>
+    </assembly>
+    <members>
+        <member name="M:UFSoft.UBF.Business.Adapter.MetadataAccessor.IsComposition(UFSoft.UBF.MD.EntityModel.IEntity,UFSoft.UBF.MD.EntityModel.IEntity,System.String)">
+            <summary>
+            是否组合关系
+            </summary>
+            <param name="fromClass"></param>
+            <param name="toClass"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UFSoft.UBF.Business.Adapter.MetadataAccessor.DoGetTableRelationship(System.String,System.String,System.String)">
+            <summary>
+            Now this method is directly calling the Metadata's Native API.
+            </summary>
+            <param name="fromClass"></param>
+            <param name="toClass"></param>
+            <returns></returns>
+        </member>
+        <member name="T:UFSoft.UBF.View.Query.Adapter.MetadataTranslator">
+            <summary>
+            About the alias naming system:
+            traditionaly OQL has no intrisinc alias. So the generated SQL alias is based on the position when the same class
+            occored at different place within different path expression, our algorithm assign it with different aliases.
+            For the same Path segments, the alias is assumed the same. 
+            
+            Following the same spirits about "same symbol apprearance should be regarded as the same one, or later reference 
+            to them will be ambiguous". For example, SQL alias require the same table when treated as different instance must
+            be assigned with different alias. So our OPathExpression, if it denotes different instance family(search path family),
+            we require it must be aliased with different alias, or it will be treated as the same OPath instance.
+            
+            That is to say, our SQL target generator's alias naming system will also need to consider the alias provided by
+            OQL itself. So when retrieving OPathExpression/VariableExpression's corresponding table alias, I should also consider
+            the prefix provided by OQL alias.
+            </summary>
+        </member>
+        <member name="M:UFSoft.UBF.View.Query.Adapter.MetadataTranslator.TranslateFrom(UFSoft.UBF.Util.Expression.Query.FromExpression,UFSoft.UBF.View.Query.ITranslatorContext)">
+            <summary>
+            VariableExpression will only be used in FromoExpression, which can be treated as a "class denotation",
+            
+            </summary>
+            <param name="from"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:UFSoft.UBF.View.Query.Adapter.MetadataTranslator.TranslateOQL(UFSoft.UBF.Util.Expression.Query.OQLExpression,System.String,UFSoft.UBF.Util.SQLBuilder.Framework.SQLJoin.JoinType,UFSoft.UBF.Util.Expression.Framework.IExpression)">
+            <summary>
+            	if this is called, it will always used in from clause, since other usage will not pass through this 
+            	trace. 
+            	
+            	And the lessons learned from using subquery in from clause can be used to direct the temporary table
+            	solution.
+            </summary>
+            <param name="oql"></param>
+            
+        </member>
+        <member name="M:UFSoft.UBF.View.Query.Adapter.MetadataTranslator.TranslateSymbol(UFSoft.UBF.Util.Expression.Framework.IExpression,UFSoft.UBF.Util.SQLBuilder.Framework.SQLJoin.JoinType,UFSoft.UBF.Util.Expression.Framework.IExpression)">
+            <summary>
+            Only VariableExpression and OPathExpression is a valid symbol to denote query path expression.
+            </summary>
+            <param name="symbol"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UFSoft.UBF.View.Query.Adapter.MetadataTranslator.TranslatePath(UFSoft.UBF.Util.Expression.Query.OPathExpression,UFSoft.UBF.Util.SQLBuilder.Framework.SQLJoin.JoinType,System.Boolean)">
+            <summary>
+            Now I need to associate alias in OQL with some OPath segment, and with the support of alias,
+            now serveral OPaths can be concated into a bigger one. (alias is used to denote an OPath)
+            
+            And all the alias-directed connection is treated as inner join, outer join can only be used in
+            from clause.
+            </summary>
+            <param name="opath"></param>
+        </member>
+        <member name="M:UFSoft.UBF.View.Query.Adapter.MetadataTranslator.TranslatePath(UFSoft.UBF.Util.Expression.Query.OPathExpression,UFSoft.UBF.View.Query.ITranslatorContext)">
+            <summary>
+            Now This method is a State Machine based solution.
+            
+            TODO: This will base on another TranslatePath to be refactoried.
+            
+            </summary>
+            <param name="opath"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:UFSoft.UBF.View.Query.Adapter.MetadataTranslator.ContributeColumn(UFSoft.UBF.View.Query.ColumnInfo)">
+            <summary>
+            Note: All these ColumnInfo I will regard as the TableName is the Aliased name,
+            such as A1, A2. There is no difference between true name and alias.
+            </summary>
+            <param name="info"></param>
+        </member>
+        <member name="M:UFSoft.UBF.View.Query.Adapter.MetadataTranslator.GetColumnExpression(UFSoft.UBF.View.Query.ColumnInfo)">
+            <summary>
+            The difference between this method and ContributeColumn is this one will not push the
+            result onto the result stack, and both will contribute join information to SelectBuilder.
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="T:UFSoft.UBF.View.Query.Adapter.MetadataTranslator.CompiledOPath">
+            <summary>
+            What an OPath can begin with?
+            1. Full entity name, as old one.
+            2. Alias, the newly added one.
+            
+            (And I can say that such as "from Order o, o.Customer c" o and c should always be connected
+            with an inner join, since the semantics of alias as part of OPath, which is quite different
+            with "from Order o, Customer c", this is cross join.)
+            
+            And this "inner join" / concatination can be regarded as some "type checking".
+            
+            What an OPath can end with?
+            1. property as atomic type, 
+            	as old one, can be used directly in SQL.
+            2. property as entity type.
+            	represent reference. can be compared with null literal and another entity type path end
+            3. property as collection type.
+            	can be used in collection function, which is usually translated into subquery, 
+            	nested scalar subquery or correlated subquery.
+            4. property as property type.
+            	can be used in compared with another property type? translated into 
+            
+            2/3/4 can be used to append more path segments, 1/2/3/4 can be used to assign an alias.
+            
+            Which state an OPath fragment can have?
+            1. Last is end 
+            // Internal structure used in contextual analysis. type checking, just like Attrbute or XXDescriptor.
+            </summary>
+        </member>
+        <member name="T:UFSoft.UBF.Business.Adapter.Properties.Resources">
+            <summary>
+               A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:UFSoft.UBF.Business.Adapter.Properties.Resources.ResourceManager">
+            <summary>
+               Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:UFSoft.UBF.Business.Adapter.Properties.Resources.Culture">
+            <summary>
+               Overrides the current thread's CurrentUICulture property for all
+               resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+    </members>
+</doc>

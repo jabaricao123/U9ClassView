@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<environment>
+  <system>
+    <connectionString>User Id=sa;Password=11;Data Source=127.0.0.1;Initial Catalog=DF0622;packet size=4096;Max Pool size=1500;persist security info=True</connectionString>
+  </system>
+  <view>
+    <mapper type="UFSoft.UBF.View.Query.MetadataDomainMapping, UFSoft.UBF.Business.Adapter" />
+    <creator type="UFSoft.UBF.View.Query.Adapter.TranslatorCreator, UFSoft.UBF.Business.Adapter" />
+  </view>
+  <Path>
+    <Metadatalib>d:\</Metadatalib>
+  </Path>
+  <path>
+    <ubfbin>Runtime</ubfbin>
+    <ubfstudio>c:\ubf20\visual studio</ubfstudio>
+    <ubfresources>c:\ubf20\resources</ubfresources>
+    <approot>c:\u9app</approot>
+    <!-- class|component|assembly -->
+    <MDLoadStrategy>assembly</MDLoadStrategy>
+  </path>
+  <resource>
+    <component id="05dfd73d-046e-457f-b08b-d17a905b2d94" />
+    <component id="cf4531fe-2991-444f-a84b-9f69073f62e5" />
+  </resource>
+  <preLoadMD isOpen="True">
+    <assembly name="UFIDA.U9.Base.BaseBE" />
+    <assembly name="UFIDA.U9.Base.BaseBP" />
+    <assembly name="UFIDA.U9.CBO.PubBE" />
+  </preLoadMD>
+  <trace iisTrace="false" sqlTrace="false" perfAlert="true" perfTrace="false" />
+  <perfAlert>
+    <alertItem type="UICallBPTooMany" limit="3000000" />
+    <alertItem type="UIModelNoFilter" limit="0" />
+    <alertItem type="UIModelTooManyRecords" limit="100" />
+    <alertItem type="UISizeTooLarge" limit="3000000" />
+    <alertItem type="UIStayTooLong" limit="3000000" />
+    <alertItem type="LazyLoadBETooMany" limit="3000000" />
+    <alertItem type="UpdateBETooMany" limit="300" />
+    <alertItem type="FindAllLoadBETooMany" limit="500" />
+    <alertItem type="EntitySessionCacheContainsBETooMany" limit="500" />
+    <alertItem type="EntityServiceCacheContainsBETooMany" limit="500" />
+    <alertItem type="ExecBPTooLong" limit="3000000" />
+    <alertItem type="ExecSVTooLong" limit="3000000" />
+    <alertItem type="CallSVTooMany" limit="10" />
+    <alertItem type="OQLTooLarge" limit="16384" />
+    <alertItem type="OQLHasTooManyParams" limit="32" />
+    <alertItem type="SQLTooLarge" limit="16384" />
+    <alertItem type="ExecSQLTooLong" limit="10000" />
+    <alertItem type="ExecSQLResultTooMany" limit="5000" />
+    <alertItem type="ExecSQLTooManyBP" limit="500" />
+    <alertItem type="ExecSQLTooManySession" limit="500" />
+  </perfAlert>
+</environment>

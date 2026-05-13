@@ -1,0 +1,234 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UFSoft.UBF.View.Query</name>
+    </assembly>
+    <members>
+        <member name="F:UFSoft.UBF.View.Query.GlobalizationOption.Non">
+            <summary>
+            No globalization related information will be provided
+            </summary>
+        </member>
+        <member name="F:UFSoft.UBF.View.Query.GlobalizationOption.Auto">
+            <summary>
+            Automaticly join data globalization table, return the content from globalized table 
+            based on the culture specified in culture.
+            </summary>
+        </member>
+        <member name="F:UFSoft.UBF.View.Query.GlobalizationOption.Manual">
+            <summary>
+            Only join data globalization table, and return globalization discriminator column.
+            </summary>
+        </member>
+        <member name="F:UFSoft.UBF.View.Query.GlobalizationOption.Parameter">
+            <summary>
+            The Extension of Auto option, which can let caller specify the 
+            culture collection.
+            </summary>
+        </member>
+        <member name="T:UFSoft.UBF.View.Query.IDomainTranslator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:UFSoft.UBF.View.Query.ITranslatorCreator">
+            <summary>
+            If the IDomainTranslator is stateless, the implementation of ITranslator
+            Creator can keep a unique IDomainTranslator reference for memory optimization.
+            If 
+            </summary>
+        </member>
+        <member name="T:UFSoft.UBF.Concurrency.LockManager">
+            <summary>
+             Facade design pattern.
+            </summary>
+        </member>
+        <member name="M:UFSoft.UBF.View.Query.CompiledQuery.Promote">
+            <summary>
+            This is the extremely ugly, dirty, bad smell code to solve the performance 
+            problem of query paging when there are so many joins. The algorithm itself
+            is WRONG. 
+            </summary>
+            <example>
+            select  A.[Org], A1.[Code] as [OrgCode], A2.[Name] as [OrgName], A.[SrcOrg], 
+            A3.[Code] as [SrcOrgCode], A4.[Name] as [SrcOrgName], 
+            A.[AccrueDate] as [DocDate], A.[PostPeriod], 
+            A5.[Number] as [PostPeriodNumber], 0 as [DocKind], A.[BusinessType], 
+            A7.[Name] as [DocTypeName], A.[DocNo], A.[AC] as [DC], A8.[Code] as [DCCode], 
+            A9.[Name] as [DCName], A.[AccrueCust_Customer] as [ACID], 
+            A.[AccrueCust_Code] as [ACCode], A10.[AccrueCust_Name] as [ACName], 
+            A.[AccrueCust_ShortName] as [ACShortName], 
+            A.[AccrueCustSite_CustomerSite] as [ACSID], 
+            A.[AccrueCustSite_Code] as [ACSCode], A10.[AccrueCustSite_Name] as [ACSName], 
+            A.[PayCust_Customer] as [PCID], A.[PayCust_Code] as [PCCode], 
+            A10.[PayCust_Name] as [PCName], A.[PayCust_ShortName] as [PCShortName], 
+            A.[PayCustSite_CustomerSite] as [PCSID], A.[PayCustSite_Code] as [PCSCode], 
+            A10.[PayCustSite_Name] as [PCSName], A.[AROCMoney_TotalMoney] as [TotalMoney], 
+            A.[DocStatus] 
+            from  AR_ARBillHead as A  
+            left join [Base_Organization] as A1 on (A.[Org] = A1.[ID])  
+            left join [Base_Organization_Trl] as A2 on (A2.SysMlFlag = 'zh-CN') and (A1.[ID] = A2.[ID])  
+            left join [Base_Organization] as A3 on (A.[SrcOrg] = A3.[ID])  
+            left join [Base_Organization_Trl] as A4 on (A4.SysMlFlag = 'zh-CN') and (A3.[ID] = A4.[ID])  
+            left join [Base_SOBAccountingPeriod] as A5 on (A.[PostPeriod] = A5.[ID])  
+            left join [AR_ARDocType] as A6 on (A.[DocumentType] = A6.[ID])  
+            left join [AR_ARDocType_Trl] as A7 on (A7.SysMlFlag = 'zh-CN') and (A6.[ID] = A7.[ID])  
+            left join [Base_Currency] as A8 on (A.[AC] = A8.[ID])  
+            left join [Base_Currency_Trl] as A9 on (A9.SysMlFlag = 'zh-CN') and (A8.[ID] = A9.[ID])  
+            left join [AR_ARBillHead_Trl] as A10 on (A10.SysMlFlag = 'zh-CN') and (A.[ID] = A10.[ID])
+            </example>
+            
+            <returns></returns>
+            
+        </member>
+        <member name="M:UFSoft.UBF.View.Query.ObjectQuery.CreateTempCollection(System.String)">
+            <summary>
+            Without previous experience to design a new API is much more difficult than imagination.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="T:UFSoft.UBF.View.Query.QueryBuilder">
+            <summary>
+            The Builder for Query Object Model: 
+            It seems that QOM(Query Object Model) is always Tree Structure Based. 
+            </summary>
+        </member>
+        <member name="M:UFSoft.UBF.View.Query.QueryCompiler.Compile(System.String,System.String,UFSoft.UBF.View.Query.GlobalizationContext)">
+            <summary>
+            Designed to be used only by BE engine,		
+            </summary>
+            <param name="className"></param>
+            <param name="oql"></param>
+            <param name="option"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UFSoft.UBF.View.Query.QueryCompiler.TransContext(UFSoft.UBF.View.Query.GlobalizationContext)">
+            <summary>
+            Now this is the hard-coded aspect-weaved Compile implementation.
+            Cache should be implemented with Aspect Oriented in mind.
+            </summary>
+            <param name="className"></param>
+            <param name="expr"></param>
+            <param name="option"></param>
+            <param name="ctx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UFSoft.UBF.View.Query.QueryCompiler.CheckFilter(System.Type,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <param name="filter"></param>
+            <returns>non null means error, null means correct</returns>
+        </member>
+        <member name="M:UFSoft.UBF.View.Query.QueryContext.BuildIntoSQL(System.String,System.String,UFSoft.UBF.View.Query.GlobalizationContext)">
+            <summary>
+            将一个Select OQL转换为select * into ＃tempTable from( OQL )的形式
+            </summary>
+            <param name="tempTable"></param>
+            <param name="oql"></param>
+            <returns></returns>
+        </member>
+        <member name="T:UFSoft.UBF.View.Query.QueryRelationalTranslator">
+            <summary>
+            Convert the OQL Expression Tree to SQL Expression Tree,
+            On the Stack is the converted SQL Expression Tree, all the
+            elements on the Stack is a valid SQL Expression, although some
+            OQL share the same primitive SQL Expression, such as Literal/Const, etc.
+            </summary>
+        </member>
+        <member name="F:UFSoft.UBF.View.Query.QueryRelationalTranslator.translator">
+            <summary>
+            Once again, the refactory of introducing IDomainTranslator prove the Common-
+            Variablity approach, i.e. Separate the apt-change part code into separate code
+            , i.e. interface and its implementation is outside the core and is delegated from
+            core.
+            </summary>
+        </member>
+        <member name="F:UFSoft.UBF.View.Query.QueryRelationalTranslator.current">
+            <summary>
+            Used to simulate stack for recursion of subquery expression visition..
+            </summary>
+        </member>
+        <member name="F:UFSoft.UBF.View.Query.QueryRelationalTranslator.refineConditions">
+            <summary>
+            Note: At present I don't support Refinement in OQL. It just can be parsed, but 
+            the generated SQL hasn't yet been tested.
+            </summary>
+        </member>
+        <member name="M:UFSoft.UBF.View.Query.QueryRelationalTranslator.#cctor">
+            <summary>
+            TODO: 
+            1. To utilize the standard SQL 99 Standard Function set. 
+            2. To support SQL dialect.
+            </summary>
+        </member>
+        <member name="M:UFSoft.UBF.View.Query.QueryRelationalTranslator.VisitOQLExpression(UFSoft.UBF.Util.Expression.Query.OQLExpression)">
+            <summary>
+            Link stack trick?
+            </summary>
+            <param name="oql"></param>
+        </member>
+        <member name="M:UFSoft.UBF.View.Query.QueryRelationalTranslator.VisitInsertExpression(UFSoft.UBF.Util.Expression.Query.InsertExpression)">
+            <summary>
+            访问 INSERT 表达式,(Added by yangyang 2007.7.12)
+            
+            将
+            </summary>
+            <param name="insert"></param>
+        </member>
+        <member name="M:UFSoft.UBF.View.Query.QueryRelationalTranslator.TranslateEnum(UFSoft.UBF.Util.Expression.Framework.FunctionExpression)">
+            <summary>
+            For pre-defined function 
+            </summary>
+            <param name="func"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UFSoft.UBF.View.Query.QueryRelationalTranslator.TranslateDateFunc(UFSoft.UBF.Util.Expression.Framework.FunctionExpression)">
+            <summary>
+            For dateadd/datediff/datename/datepart
+            </summary>
+            <param name="func"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UFSoft.UBF.View.Query.QueryRelationalTranslator.VisitFunctionExpression(UFSoft.UBF.Util.Expression.Framework.FunctionExpression)">
+            <summary>
+            TODO: expr.Function should be mapped to the underlying Standard SQL Function
+            Manager, to get or bypass the SQL Dialect.
+            </summary>
+            <param name="expr"></param>
+        </member>
+        <member name="F:UFSoft.UBF.View.Query.QueryConfiguration.creator">
+            <summary>
+            Just used for cache.
+            </summary>
+        </member>
+        <member name="T:UFSoft.UBF.View.Query.UsageFinder">
+            <summary>
+            The Wrong, Ugly, Bad Smell Utility to find the alias usage	
+            </summary>
+        </member>
+        <member name="M:UFSoft.UBF.View.Query.SQLJoinDecorator.VisitVariableExpression(UFSoft.UBF.Util.Expression.Framework.VariableExpression)">
+            <summary>
+            This will be called only on SQLJoin lists, so we can safely do transformation
+            </summary>
+            <param name="expr"></param>
+        </member>
+        <member name="T:udfbinding">
+            <remarks/>
+        </member>
+        <member name="P:udfbinding.Items">
+            <remarks/>
+        </member>
+        <member name="T:udfbindingUdf">
+            <remarks/>
+        </member>
+        <member name="P:udfbindingUdf.function">
+            <remarks/>
+        </member>
+        <member name="P:udfbindingUdf.owner">
+            <remarks/>
+        </member>
+    </members>
+</doc>
