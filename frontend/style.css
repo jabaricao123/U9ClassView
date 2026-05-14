@@ -216,6 +216,19 @@ body.sidebar-collapsed .sidebar { transform: translateX(calc(-1 * var(--sidebar-
     transition: all var(--transition); border-radius: 3px;
 }
 .inline-note:focus { border-color: var(--border-focus); background: var(--bg-input); color: var(--text-primary); }
+.note-cell .inline-note {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    margin: 0;
+    text-align: left;
+}
+.type-cell {
+    white-space: normal;
+    word-break: break-all;
+    text-align: left;
+}
 .bool-yes { color: var(--green); font-weight: 500; }
 .bool-no { color: var(--text-muted); }
 

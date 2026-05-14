@@ -2,3 +2,9 @@
 App_Data/*.sqlite
 App_Data/*.sqlite-shm
 App_Data/*.sqlite-wal
+App_Data/Logs/
+backend-core/bin/
+backend-core/obj/
+backend-fastapi/.venv/
+backend-fastapi/__pycache__/
+backend-fastapi/**/*.pyc

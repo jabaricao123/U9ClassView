@@ -42,10 +42,52 @@ ClassView 是一个 ERP/U9 元数据查询工具。\
    - `SQL_DATABASE`
    - `SQL_USER`
    - `SQL_PASSWORD`
-3. 启动站点（IIS/IIS Express 均可）
+3. 安装并启动 FastAPI 后端：
+
+```powershell
+cd backend-fastapi
+python -m pip install -r requirements.txt
+python -m uvicorn main:app --host 127.0.0.1 --port 8000
+```
+
 4. 打开前端页面：
-   - `frontend/index.html`
-   - 或部署后的站点入口
+   - `http://127.0.0.1:8000/`
+   - 兼容旧路径：`http://127.0.0.1:8000/frontend/index.html`
+
+## FastAPI 后端
+
+新后端位于 `backend-fastapi/`，使用 FastAPI + `pymssql` 读取 ERP SQL Server，使用 SQLite 保存本地工具数据。
+
+已迁移接口：
+
+- `GET /api/entity/search`
+- `GET /api/entity/attributes`
+- `GET /api/favorite/list`
+- `POST /api/favorite/toggle`
+- `GET /api/note/list`
+- `POST /api/note/save`
+- `GET /api/recent/list`
+- `POST /api/recent/record`
+- `POST /api/recent/click`
+- `GET /api/config/current`
+- `POST /api/config/test`
+- `POST /api/config/save`
+
+启动方式：
+
+```powershell
+cd backend-fastapi
+python -m pip install -r requirements.txt
+python -m uvicorn main:app --host 127.0.0.1 --port 8000
+```
+
+默认地址：
+
+```text
+http://127.0.0.1:8000/
+```
+
+新后端会直接托管现有 `frontend/`，因此访问 `http://127.0.0.1:8000/` 即可进入重构版页面。
 
 ## 使用说明
 
@@ -62,6 +104,7 @@ ClassView 是一个 ERP/U9 元数据查询工具。\
 ## 目录结构
 
 - `frontend/`：重构版前端
+- `backend-fastapi/`：FastAPI 后端
 - `Api/`：Web API 控制器
 - `App_Code/`：运行时编译代码（与 `Api/` 同步）
 - `App_Data/`：本地 SQLite 与日志
@@ -73,4 +116,3 @@ ClassView 是一个 ERP/U9 元数据查询工具。\
 - 上传 GitHub 前请确认：
   - 不提交真实账号密码
   - 不提交 `App_Data/*.sqlite` 本地数据文件
-
