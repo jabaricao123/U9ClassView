@@ -1,8 +1,10 @@
 # ClassView Jabaricao
 
 ClassView 是一个 ERP/U9 元数据查询工具。\
-前端使用重构版 `frontend/index.html`，后端提供 `/api/*` 接口。
+前端使用重构版 `frontend/index.html`，后端重构为fastapi
 
+- 脱离 IIS 架构，舍弃传统部署依赖
+- 
 ## 主要功能
 
 - 实体查询：按名称、命名空间、表名检索实体
@@ -19,7 +21,6 @@ ClassView 是一个 ERP/U9 元数据查询工具。\
 
 ## 下一版本更新规划
 
-- 脱离 IIS 架构，舍弃传统部署依赖
 - 完善 SQL 测试功能，已置顶字段自动生成 SQL，摒弃原有冗余沉淀字段，提升 AI Agent 识别效率
 - 测试 SQL 语句自动加注释功能，导出的 SQL 可直接交给 AI，一键生成接口 API 和 MCP 服务
 - 完善字段备注、数据表备注体系，助力 AI 快速解析业务、自动生成标准 SQL
@@ -42,7 +43,7 @@ ClassView 是一个 ERP/U9 元数据查询工具。\
    - `SQL_DATABASE`
    - `SQL_USER`
    - `SQL_PASSWORD`
-3. 安装并启动 FastAPI 后端：
+3. 启动 FastAPI 后端：
 
 ```powershell
 cd backend-fastapi
@@ -52,7 +53,7 @@ python -m uvicorn main:app --host 127.0.0.1 --port 8000
 
 4. 打开前端页面：
    - `http://127.0.0.1:8000/`
-   - 兼容旧路径：`http://127.0.0.1:8000/frontend/index.html`
+
 
 ## FastAPI 后端
 
